@@ -15,20 +15,21 @@ class BotEndpoint(MethodView):
     @api_key_required
     def post(self):
         data = request.get_json()
+        text = data.get("text", "")
 
-        # pre-process data here and pass it to self.bot.predict method
-        # e.g. extracted_data = data.get("key", "")
-        #      bot_result = self.bot.predict(extracted_data)
-        bot_result = None
+        if not text:
+            return jsonify({"error": "No text provided for NER extraction"}), 400
+        bot_result = self.bot.predict(text)
 
         # return bot_result as JSON
-        return jsonify({"result": bot_result})
+        return jsonify({"GroupID": bot_result})
 
 
 class HealthCheck(MethodView):
     @debug_request
     def get(self):
         return jsonify({"status": "ok"})
+
 
 class ModelInfo(MethodView):
     def __init__(self, bot: Predictor):
