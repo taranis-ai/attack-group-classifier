@@ -1,0 +1,38 @@
+# built and cached files
+venv/
+.venv/
+.envrc
+__pycache__/
+*.pyc
+dist/
+build/
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+.hypothesis
+.ruff_cache/
+
+# temporary files of editors
+.DS_Store
+.*.sw?
+.~
+*.*~
+*.bak
+
+# sensitive data not to be commited
+.env.local
+.env.*.local
+src/.env
+*.pem
+*.key
+*.log
+
+# settings of editors
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
