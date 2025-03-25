@@ -23,7 +23,7 @@ You can run your bot locally with
 ```bash
 flask run
 # or
-granian run
+granian app
 ```
 
 
