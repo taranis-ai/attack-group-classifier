@@ -31,10 +31,10 @@ granian app
 
 You can also create a Docker image out of this bot. For this, you first need to build the image with the build_container.sh
 
-You can specify which model the image should be built with the INCLUDED_MODEL environment variable. If you omit it, the image will be built with the default model.
+You can specify which model the image should be built with the MODEL environment variable. If you omit it, the image will be built with the default model.
 
 ```bash
-INCLUDED_MODEL=model_name ./build_container.sh
+MODEL=model_name ./build_container.sh
 ```
 
 then you can run it with:

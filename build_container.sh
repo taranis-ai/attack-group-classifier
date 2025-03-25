@@ -12,7 +12,7 @@ set -eou pipefail
 build_tags=""
 build_args=""
 
-INCLUDED_MODEL=${INCLUDED_MODEL:-"mpnet"}
+MODEL=${MODEL:-"mpnet"}
 
 # if not a git repo, build locally
 if [ -d .git ]; then
@@ -28,25 +28,25 @@ if [ -d .git ]; then
     GITHUB_REPOSITORY_OWNER=${GITHUB_REPOSITORY_OWNER:-"ghcr.io/taranis-ai"}
     build_args+="--build-arg GITHUB_REPOSITORY_OWNER='${GITHUB_REPOSITORY_OWNER}'"
     build_tags+="--tag ${GITHUB_REPOSITORY_OWNER}/${REPO_NAME}>:latest "
-    build_tags+="--tag '${GITHUB_REPOSITORY_OWNER}/${REPO_NAME}:${INCLUDED_MODEL}'"
+    build_tags+="--tag '${GITHUB_REPOSITORY_OWNER}/${REPO_NAME}:${MODEL}'"
 
     # check if there are any commits yet
     if git rev-parse --quiet --verify HEAD >/dev/null; then
         CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD | sed 's/[^a-zA-Z0-9_.-]/_/g')
-        echo "Building image for branch ${CURRENT_BRANCH} and model ${INCLUDED_MODEL} on ${GITHUB_REPOSITORY_OWNER}"
+        echo "Building image for branch ${CURRENT_BRANCH} and model ${MODEL} on ${GITHUB_REPOSITORY_OWNER}"
         build_tags+="--tag ${GITHUB_REPOSITORY_OWNER}/${REPO_NAME}:${CURRENT_BRANCH} "
     else
         echo "The repository has no commits yet."
     fi
 
 else
-    build_tags+="--tag attack_group_classifier:${INCLUDED_MODEL} "
+    build_tags+="--tag attack_group_classifier:${MODEL} "
     build_tags+="--tag attack_group_classifier:latest"
-    echo "Current directory is not a git repo. Building image for model ${INCLUDED_MODEL} locally"
+    echo "Current directory is not a git repo. Building image for model ${MODEL} locally"
 
 fi;
 
-build_args+="--build-arg MODEL='${INCLUDED_MODEL}'"
+build_args+="--build-arg MODEL='${MODEL}'"
 
 docker buildx build --file Containerfile \
   $build_args \
