@@ -4,6 +4,7 @@ from flask.views import MethodView
 from attack_group_classifier.predictor import Predictor
 from attack_group_classifier.predictor_factory import PredictorFactory
 from attack_group_classifier.decorators import api_key_required, debug_request
+from attack_group_classifier.config import Config
 
 
 class BotEndpoint(MethodView):
@@ -11,7 +12,7 @@ class BotEndpoint(MethodView):
         super().__init__()
         self.bot = bot
 
-    @debug_request
+    @debug_request(Config.DEBUG)
     @api_key_required
     def post(self):
         data = request.get_json()
@@ -26,7 +27,7 @@ class BotEndpoint(MethodView):
 
 
 class HealthCheck(MethodView):
-    @debug_request
+    @debug_request(Config.DEBUG)
     def get(self):
         return jsonify({"status": "ok"})
 
@@ -36,7 +37,7 @@ class ModelInfo(MethodView):
         super().__init__()
         self.bot = bot
 
-    @debug_request
+    @debug_request(Config.DEBUG)
     def get(self):
         return jsonify(self.bot.modelinfo)
 
